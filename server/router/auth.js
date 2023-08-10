@@ -1,7 +1,8 @@
+
 const express = require("express");
 const router = express.Router();
 require("../db/conn");
-const bcrypt=require("bcryptjs")
+const bcrypt = require("bcryptjs");
 const User = require("../model/userSchema");
 
 // const middleware=(req,res, next)=>{
@@ -15,16 +16,25 @@ router.get("/", (req, res) => {
 // login route
 router.post("/sigin", async (req, res) => {
   try {
+    let token;
     const { email, password } = req.body;
     console.log(email);
     if (!email || !password) {
       return res.status(400).send("please fill");
     }
     const userLogin = await User.findOne({ email: email });
-    const isMatch= await bcrypt.compare(password,userLogin.password);
+    const isMatch = await bcrypt.compare(password, userLogin.password);
+    
     if (!userLogin || !isMatch) {
-      res.status(500).send("invalid");
+        res.status(500).send("invalid");
     } else {
+        console.log("brefore")
+        token= await userLogin.generateAuthToken();
+        console.log(token)
+        res.cookie("jwttoken",token,{
+            expires:new Date(Date.now()+25892000000),
+            httpOnly:true
+        })
       res.status(200).send("successfully login");
     }
   } catch (err) {
@@ -47,7 +57,10 @@ router.post("/register", async (req, res) => {
         .send("Both password and confirm password are not same");
     } else {
       const user = new User({ name, email, phone, work, password, cpassword });
+      console.log("helloo")
+      console.log(password)
       await user.save();
+      console.log("helloo2")
       res.status(201).send("successfullu created");
     }
   } catch (err) {
