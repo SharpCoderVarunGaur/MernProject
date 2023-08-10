@@ -41,11 +41,16 @@ const User =require('../model/userSchema')
     const useralready=  await User.findOne({email:email})
     if(useralready){
         return res.status(422).send("already exsist")
+    }else if(password !== cpassword){
+        return res.status(422).send("Both password and confirm password are not same")
+    }else{
+
+        const user =new User({name,email,phone,work,password,cpassword})
+     await user.save()
+        res.status(201).send("successfullu created")
     }
-    const user =new User({name,email,phone,work,password,cpassword})
-    const saveData= await user.save()
-    res.status(201).send("successfullu created")
     }catch(err){
+        console.log(err);
         res.status(500).send({err:"failed"})
     }
 
