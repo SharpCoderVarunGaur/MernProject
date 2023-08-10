@@ -1,15 +1,10 @@
+// const dotenv=require("dotenv");
+require("dotenv").config();
+require("./db/conn")
 const express =require("express");
 const mongoose=require("mongoose");
 const app =express();
-const port =process.env.PORT||3000;
-
-const DB="mongodb+srv://varungaur408:Harshita1608@cluster0.5f5xuas.mongodb.net/mernstack?retryWrites=true&w=majority"
-
-mongoose.connect(DB).then(()=>{
-   console.log("connection successfull");
-}).catch((err)=>{
-  console.log(err)
-  })
+const port =process.env.PORT|| 3000; 
 
 //Middelware
 
