@@ -1,11 +1,19 @@
 const express =require("express");
 const app =express();
 const port =process.env.PORT||3000;
+
+//Middelware
+
+const middleware=(req,res, next)=>{
+  console.log("hello middd")
+  next();
+}
+
 app.get('/',(req,res)=>{
     res.send("hello Mers")
 })
 
-app.get('/about',(req,res)=>{
+app.get('/about',middleware,(req,res)=>{
     res.send("hello about")
 })
 app.get('/contact',(req,res)=>{
