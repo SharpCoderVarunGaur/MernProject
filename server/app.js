@@ -6,6 +6,7 @@ const mongoose=require("mongoose");
 const app =express();
 const port =process.env.PORT|| 3000; 
 
+const User=require("./model/userSchema")
 //Middelware
 
 const middleware=(req,res, next)=>{
