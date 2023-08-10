@@ -12,6 +12,25 @@ const User =require('../model/userSchema')
   router.get('/',(req,res)=>{
       res.send("hello Mers Server")
   })
+  // login route
+  router.post('/sigin',async(req,res)=>{
+     try{
+         const {email,password}=req.body;
+         console.log(email)
+         if(!email || !password){
+            return res.status(400).send("please fill")
+         }
+         const userLogin= await User.findOne({email:email})
+         if(!userLogin){
+            res.status(500).send("invalid")
+         }else{
+            res.status(200).send("successfully login")
+         }
+         
+     }catch(err){
+           res.status(500).send("fai;")
+     }
+  })
   router.post('/register',async(req,res)=>{
     // console.log(req.body);
     const {name,email,phone,work,password,cpassword}= req.body;
