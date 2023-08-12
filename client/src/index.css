@@ -67,23 +67,58 @@ color: grey
 }
 .firstSection{
   height: 95vh;
-}
-.box-main{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.box-main{
+  display: flex;
+  justify-content:flex-start;
+  align-items:center;
+  flex-direction: column;
   color: white;
   font-family: 'Courier New', Courier, monospace;
-  max-width: 50%;
+  width: 40%;
   margin: auto;
   height: 75%;
+  background-color:grey;
+  border-radius: 12px;
 }
-.firstHalf{
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+.box-main h1{
+  text-align: center;
+  color: black;
+  width: 20%;
+  margin-top: 40px;
+  margin-left: 20px;
+  font-family: 'Courier New', Courier, monospace;
+ 
+}
 
+.firstHalf{
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+}
+.register-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.inputSignUp{
+  width: 300px;
+  padding: 3px;
+  border-top: none;
+  outline: none;
+  border-left: none;
+  border-right: none;
+   color: black;
+}
+.label{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
 }
 .secondHalf{
   width: 30%;
@@ -93,12 +128,14 @@ color: grey
   display: block;
   margin: auto;
 }
-.text-big{
+/* .text-big{
    font-size: 41px;
+   color:black
 }
 .text-small{
   font-size: 18px;
-}
+  color: black;
+} */
 .btn {
   padding: 8px 20px;
   margin:7px 0;

@@ -56,7 +56,7 @@ const Navbar = () => {
         <NavLink className="nav-link" to="/signup">Registration</NavLink>
       </li>
 </ul>
-<div className='rightNav v'>
+{/* <div className='rightNav v'>
 <input
         type="text"
         id="search"
@@ -65,7 +65,7 @@ const Navbar = () => {
         // onChange={handleInputChange}
       />
      <button className='btn btn-sm'>Click Me</button>
-</div>
+</div> */}
 <div className='burger'>
   <div className='line'></div>
   <div className='line'></div>
