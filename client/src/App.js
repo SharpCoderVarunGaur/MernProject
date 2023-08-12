@@ -5,7 +5,7 @@ import About from './Components/About'
 import Contact from './Components/contact';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
-
+import "./Ap.css";
 
 function App() {
   return (
