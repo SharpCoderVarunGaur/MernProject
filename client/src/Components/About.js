@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import logo from "../Images/laptop.jpeg"
 import AboutData from './AboutData';
 import { NavLink ,useNavigate } from "react-router-dom";
+import {shallowEqual, useDispatch ,useSelector} from "react-redux";
+import {addDataUser,removeData} from "../store/Slice/UserSlice"
 import Tab from './tab';
 const About = () => {
+  const dispatch=useDispatch()
+  const dataState=useSelector((state)=>{
+    return state.users
+  })
 const [adata,setAData]=useState({})
-const [aboutData,setAboutData]=useState("")
   const navigate=useNavigate()
   const callAboutPage = async()=>{
   try{
-    console.log("data1")
       const res=await fetch('/about',{
         method:"GET",
         headers:{
@@ -19,12 +23,14 @@ const [aboutData,setAboutData]=useState("")
         credentials:"include"
       })
       const data=await res.json()
-      console.log( "data",data)
       if(!res.status===200){
         console.log("data2",data)
       }else{
         console.log("data3",data)
         setAData(data)
+        if(dataState.length===0){
+          // dispatch(addDataUser(data))
+        }
       }
   }catch(err){
     console.log("errs",err)
