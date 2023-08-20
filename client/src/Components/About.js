@@ -5,6 +5,7 @@ import { NavLink ,useNavigate } from "react-router-dom";
 import Tab from './tab';
 const About = () => {
 const [adata,setAData]=useState({})
+const [aboutData,setAboutData]=useState("")
   const navigate=useNavigate()
   const callAboutPage = async()=>{
   try{
