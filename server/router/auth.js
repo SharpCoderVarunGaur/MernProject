@@ -35,7 +35,7 @@ router.post("/sigin", async (req, res) => {
             expires:new Date(Date.now()+25892000000),
             httpOnly:true
         })
-      res.status(200).send("successfully login");
+      res.status(200).send({id:userLogin._id});
     }
   } catch (err) {
     console.log(err)
@@ -112,6 +112,9 @@ router.post("/register", async (req, res) => {
         console.log("req",req.rootUser)
         res.send(req.rootUser)
         
+      })
+      router.get("/GETITEM",authenticate,(req,res)=>{
+        res.send(req.rootUser)
       })
 // router.get("/about", (req, res) => {
 //   console.log("hello")

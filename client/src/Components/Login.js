@@ -19,9 +19,16 @@ const Login = () => {
       })
      })
      const data =await res
+    
      if(data.status===200){
-      window.alert("Successfull Login")
-      navigate("/")
+       window.alert("Successfull Login")
+       let response= await data.json()
+       console.log("Respos",response)
+      navigate("/",{
+        state:{
+          _id:response.id
+        }
+      })
      }else{
       window.alert("Invalid Login")
      }
