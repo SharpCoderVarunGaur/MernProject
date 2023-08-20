@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 require("../db/conn");
+const authenticate=require('../middleware/authenticate')
 const bcrypt = require("bcryptjs");
 const User = require("../model/userSchema");
 
@@ -10,34 +11,34 @@ const User = require("../model/userSchema");
 //     next();
 //   }
 
-router.get("/", (req, res) => {
-  res.send("hello Mers Server");
-});
 // login route
 router.post("/sigin", async (req, res) => {
   try {
     let token;
     const { email, password } = req.body;
     console.log(email);
+    console.log(password);
     if (!email || !password) {
       return res.status(400).send("please fill");
     }
     const userLogin = await User.findOne({ email: email });
+    console.log(userLogin.password);
     const isMatch = await bcrypt.compare(password, userLogin.password);
     
     if (!userLogin || !isMatch) {
-        res.status(500).send("invalid");
+        res.status(400).send("invalid");
     } else {
         console.log("brefore")
         token= await userLogin.generateAuthToken();
         console.log(token)
-        res.cookie("jwttoken",token,{
+        res.cookie("jwtoken",token,{
             expires:new Date(Date.now()+25892000000),
             httpOnly:true
         })
       res.status(200).send("successfully login");
     }
   } catch (err) {
+    console.log(err)
     res.status(500).send("fai;");
   }
 });
@@ -69,55 +70,61 @@ router.post("/register", async (req, res) => {
   }
 
   // User.findOne({email:email}).then((userExist)=>{
-
-  //     // const user =new User(req.body)
-  //     const user =new User({name,email,phone,work,password,cpassword})
-  //     user.save().then(()=>{
-  //         res.status(201).json({success:"created"})
-  //     }).catch((err)=>{
-  //         res.status(500).json({err:"failed"})
-  //     })
-
-  // }).catch((err)=>{
-  //     console.log(err)
-  // })
-
-  //   router.post('/register',(req,res)=>{
-  // // console.log(req.body);
-  // const {name,email,phone,work,password,cpassword}= req.body;
-  // if(!name|| !email|| !phone|| !work|| !password|| !cpassword){
+    
+    //     // const user =new User(req.body)
+    //     const user =new User({name,email,phone,work,password,cpassword})
+    //     user.save().then(()=>{
+      //         res.status(201).json({success:"created"})
+      //     }).catch((err)=>{
+        //         res.status(500).json({err:"failed"})
+        //     })
+        
+        // }).catch((err)=>{
+          //     console.log(err)
+          // })
+          
+          //   router.post('/register',(req,res)=>{
+            // // console.log(req.body);
+            // const {name,email,phone,work,password,cpassword}= req.body;
+            // if(!name|| !email|| !phone|| !work|| !password|| !cpassword){
   //    return res.status(422).json({error:'plz filled the fileds properly'})
   // }
   // User.findOne({email:email}).then((userExist)=>{
-  //     if(userExist){
-  //         return res.status(422).json({error:"User already exsist"})
+    //     if(userExist){
+      //         return res.status(422).json({error:"User already exsist"})
   //     }
   //     // const user =new User(req.body)
   //     const user =new User({name,email,phone,work,password,cpassword})
   //     user.save().then(()=>{
-  //         res.status(201).json({success:"created"})
-  //     }).catch((err)=>{
-  //         res.status(500).json({err:"failed"})
-  //     })
-
-  // }).catch((err)=>{
-  //     console.log(err)
-  // })
-  // res.json({message:req.body})
-  //  res.send("hello Mers Server1")
-});
-
-router.get("/about", (req, res) => {
-  res.send("hello about");
-});
-router.get("/contact", (req, res) => {
-  res.send("hello contact");
-});
-router.get("/signin", (req, res) => {
-  res.send("hello contsigninact");
-});
-router.get("/signup", (req, res) => {
-  res.send("hello signup");
-});
+    //         res.status(201).json({success:"created"})
+    //     }).catch((err)=>{
+      //         res.status(500).json({err:"failed"})
+      //     })
+      
+      // }).catch((err)=>{
+        //     console.log(err)
+        // })
+        // res.json({message:req.body})
+        //  res.send("hello Mers Server1")
+      });
+      
+      router.get('/about',authenticate,(req,res)=>{
+        console.log("req",req.rootUser)
+        res.send(req.rootUser)
+        
+      })
+// router.get("/about", (req, res) => {
+//   console.log("hello")
+//   res.send("hello about");
+// });
+// router.get("/contact", (req, res) => {
+//   res.send("hello contact");
+// });
+// router.get("/signin", (req, res) => {
+//   res.send("hello contsigninact");
+// });
+// router.get("/signup", (req, res) => {
+//   res.send("hello signup");
+// });
 
 module.exports = router;

@@ -1,40 +1,87 @@
-import React from 'react'
-import logo from "../Images/romeo2.jpg"
+import React, { useEffect, useState } from 'react'
+import logo from "../Images/laptop.jpeg"
+import AboutData from './AboutData';
+import { NavLink ,useNavigate } from "react-router-dom";
+import Tab from './tab';
 const About = () => {
+const [adata,setAData]=useState({})
+  const navigate=useNavigate()
+  const callAboutPage = async()=>{
+  try{
+    console.log("data1")
+      const res=await fetch('/about',{
+        method:"GET",
+        headers:{
+           Accept:"application/json",
+          "Content-Type":"application/json"
+        },
+        credentials:"include"
+      })
+      const data=await res.json()
+      console.log( "data",data)
+      if(!res.status===200){
+        console.log("data2",data)
+      }else{
+        console.log("data3",data)
+        setAData(data)
+      }
+  }catch(err){
+    console.log("errs",err)
+    navigate("/login")
+  }
+  }
+  useEffect(()=>{
+    callAboutPage();
+  },[])
+  const [activeTab, setActiveTab] = useState(0);
 
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
+
+  const tabs = [
+    { label: "About", content: <AboutData pdata={adata} /> },
+    { label: "Profile", content: "NO DATA FOUND" },
+  ];
 
   return (
     <>
-         <div className='container emp-profle'>
-            <from method="">
-             <div className='row'> 
-              <div className='col-md-4'>
-               <img width="50%" height="40%" src={logo}/>
-              </div>
+         <div className="containers">
+        
 
-              <div className='col-md-6'>
-               <div className='profile-head'>
-                     <h5>
-                      web Developer
-                     </h5>
-                     <p className='profile-rating mt-3 mb-5'>RankingS: <span> 1/10</span></p>
-                     <ul className='nav nav-tabs' role='tablist'>
-                     <li className='nav-item'>
-                      <a className='nav-link active' id="home-tab" data-toggle="tab" href='#home' role="tab">About</a>
-
-                      </li> 
-                      <li className='nav-item'>
-                      <a className='nav-link active' id="profile-tab" data-toggle="tab" href='#profile' role="tab">About</a>
-
-                      </li> 
-                     </ul>
-               </div>
-              </div>
-              
-             </div>
-
-            </from>
-         </div>
+        <div className="sections1">
+          <img src={logo} />
+          <div className="details">
+            <div className="aboutdetails">
+              {/* <p className='itemabouts'> varun</p>
+              <p className='itemabouts'> varun</p>
+              <p className='itemabouts'> varun</p> */}
+             
+            </div>
+          </div>
+        </div>
+        <div className="sections2">
+          <div className="signin-contents">
+            <p className="names">{adata.name}</p>
+            <p className="des">{adata.work}</p>
+          </div>
+          <div>
+            <div className="tab-buttons">
+              {tabs.map((tab, index) => (
+                <Tab
+                  key={index}
+                  label={tab.label}
+                  isActive={index === activeTab}
+                  onClick={() => handleTabClick(index)}
+                />
+              ))}
+            </div>
+            <hr className="horizontal-line"></hr>
+            <div className="tab-content">{tabs[activeTab].content}</div>
+          </div>
+        </div>
+        
+      </div>
     </>
   )
 }
