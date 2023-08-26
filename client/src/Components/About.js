@@ -8,33 +8,33 @@ import Tab from './tab';
 const About = () => {
   const dispatch=useDispatch()
   const dataState=useSelector((state)=>{
-    return state.users
+  return state.users
   })
-const [adata,setAData]=useState({})
+    const [adata,setAData]=useState({})
   const navigate=useNavigate()
   const callAboutPage = async()=>{
   try{
-      const res=await fetch('/about',{
-        method:"GET",
-        headers:{
-           Accept:"application/json",
-          "Content-Type":"application/json"
-        },
-        credentials:"include"
-      })
-      const data=await res.json()
-      if(!res.status===200){
-        console.log("data2",data)
-      }else{
-        console.log("data3",data)
-        setAData(data)
-        if(dataState.length===0){
+  const res=await fetch('/about',{
+  method:"GET",
+  headers:{
+  Accept:"application/json",
+  "Content-Type":"application/json"
+  },
+  credentials:"include"
+  })
+  const data=await res.json()
+  if(!res.status===200){
+  console.log("data2",data)
+  }else{
+  console.log("data3",data)
+  setAData(data)
+  if(dataState.length===0){
           // dispatch(addDataUser(data))
         }
       }
   }catch(err){
-    console.log("errs",err)
-    navigate("/login")
+  console.log("errs",err)
+  navigate("/login")
   }
   }
   useEffect(()=>{
